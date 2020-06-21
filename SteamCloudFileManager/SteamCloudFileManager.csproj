@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Steamworks.NET">
-      <HintPath>..\Steamworks.NET\Standalone\obj\OSX-Linux\Steamworks.NET.dll</HintPath>
+      <HintPath>..\Steamworks.NET\Standalone\bin\x86\Windows\Steamworks.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

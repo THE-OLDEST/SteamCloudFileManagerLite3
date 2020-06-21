@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SteamCloudFileManager
 {
@@ -188,7 +189,11 @@ namespace SteamCloudFileManager
                 disableUploadGui();
                 foreach (var selectedFile in openFileDialog1.FileNames)
                 {
-                    uploadQueue.Enqueue(new Tuple<string, string>(Path.GetFileName(selectedFile).ToLowerInvariant(), selectedFile));
+                    var teststring = selectedFile;
+                    teststring = Path.GetFileName(teststring).ToLowerInvariant();
+                    teststring = Regex.Replace(teststring, "(%2f)","/");
+                    
+                    uploadQueue.Enqueue(new Tuple<string, string>(teststring, selectedFile));
                 }
                 uploadBackgroundWorker.RunWorkerAsync();
             }
