@@ -21,7 +21,32 @@ namespace SteamCloudFileManager
         {
             InitializeComponent();
         }
+        public static string ShowDialog(string text, string caption)
+        {
+            Form prompt = new Form()
+            {
+                Width = 340,
+                Height = 150,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = caption,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            //Label textLabel = new Label() { Left = 20, Top = 20, Width = 100, Text = text };
+            Label textLabel = new Label();
+            textLabel.Size = new Size(300, 50);
+            textLabel.Text = text;
+            textLabel.Left = 20;
+            textLabel.Top = 20;
+            TextBox textBox = new TextBox() { Left = 75, Top = 75, Width = 125 };
+            Button confirmation = new Button() { Text = "Ok", Left = 200, Width = 60, Top = 75, DialogResult = DialogResult.OK };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(textBox);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.AcceptButton = confirmation;
 
+            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+        }
         private void connectButton_Click(object sender, EventArgs e)
         {
             try
@@ -189,11 +214,15 @@ namespace SteamCloudFileManager
                 disableUploadGui();
                 foreach (var selectedFile in openFileDialog1.FileNames)
                 {
-                    var teststring = selectedFile;
-                    teststring = Path.GetFileName(teststring).ToLowerInvariant();
-                    teststring = Regex.Replace(teststring, "(%2f)","/");
-                    
-                    uploadQueue.Enqueue(new Tuple<string, string>(teststring, selectedFile));
+                    string name = Path.GetFileName(selectedFile).ToLowerInvariant();
+                    string text = String.Format("Enter path for file {0} ex. \"somedir/anotherdir/\".\n Leave empty to upload to root folder", name);
+                    string promptValue = ShowDialog(text, "Select Path to upload to");
+                    if(!promptValue.EndsWith("/"))
+                    {
+                        promptValue = String.Format("{0}/",promptValue);
+                    }
+                    string namepath = String.Format("{0}{1}", promptValue,name);
+                    uploadQueue.Enqueue(new Tuple<string, string>(namepath, selectedFile));
                 }
                 uploadBackgroundWorker.RunWorkerAsync();
             }
