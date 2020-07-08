@@ -260,5 +260,19 @@ namespace SteamCloudFileManager
             enableUploadGui();
             refreshButton_Click(this, EventArgs.Empty);
         }
+
+        private void uploadButton_Click2(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                disableUploadGui();
+                foreach (var selectedFile in openFileDialog1.FileNames)
+                { 
+                    
+                    uploadQueue.Enqueue(new Tuple<string, string>(Path.GetFileName(selectedFile).ToLowerInvariant(), selectedFile));
+                }
+                uploadBackgroundWorker.RunWorkerAsync();
+            }
+        }
     }
 }
