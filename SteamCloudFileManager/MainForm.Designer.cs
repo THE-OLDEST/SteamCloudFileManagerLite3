@@ -43,6 +43,10 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.downloadButton = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.uploadButton = new System.Windows.Forms.Button();
+            this.uploadBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.uploadButton2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // remoteListView
@@ -164,11 +168,45 @@
             this.saveFileDialog1.Filter = "All files|*";
             this.saveFileDialog1.Title = "Save remote file as...";
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Multiselect = true;
+            this.openFileDialog1.Title = "Select files to upload";
+            // 
+            // uploadButton
+            // 
+            this.uploadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.uploadButton.Enabled = false;
+            this.uploadButton.Location = new System.Drawing.Point(174, 232);
+            this.uploadButton.Name = "uploadButton";
+            this.uploadButton.Size = new System.Drawing.Size(112, 23);
+            this.uploadButton.TabIndex = 8;
+            this.uploadButton.Text = "Upload(with subdir)";
+            this.uploadButton.UseVisualStyleBackColor = true;
+            this.uploadButton.Click += new System.EventHandler(this.uploadButton_Click);
+            // 
+            // uploadBackgroundWorker
+            // 
+            this.uploadBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.uploadBackgroundWorker_DoWork);
+            this.uploadBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.uploadBackgroundWorker_RunWorkerCompleted);
+            // 
+            // uploadButton2
+            // 
+            this.uploadButton2.Location = new System.Drawing.Point(292, 232);
+            this.uploadButton2.Name = "uploadButton2";
+            this.uploadButton2.Size = new System.Drawing.Size(102, 23);
+            this.uploadButton2.TabIndex = 9;
+            this.uploadButton2.Text = "upload(no subdir)";
+            this.uploadButton2.UseVisualStyleBackColor = true;
+            this.uploadButton2.Click += new System.EventHandler(this.uploadButton_Click2);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 267);
+            this.Controls.Add(this.uploadButton2);
+            this.Controls.Add(this.uploadButton);
             this.Controls.Add(this.downloadButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.remoteListView);
@@ -201,6 +239,10 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button downloadButton;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button uploadButton;
+        private System.ComponentModel.BackgroundWorker uploadBackgroundWorker;
+        private System.Windows.Forms.Button uploadButton2;
     }
 }
 
